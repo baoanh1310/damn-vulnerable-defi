@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol";
 import "@openzeppelin/contracts/interfaces/IERC3156FlashLender.sol";
 import "@openzeppelin/contracts/interfaces/IERC3156FlashBorrower.sol";
 import "./SimpleGovernance.sol";
+import "hardhat/console.sol";
 
 /**
  * @title SelfiePool
@@ -57,6 +58,8 @@ contract SelfiePool is ReentrancyGuard, IERC3156FlashLender {
             revert UnsupportedCurrency();
 
         token.transfer(address(_receiver), _amount);
+        console.log("Receiver: ", address(_receiver));
+        console.log("Attack contract balance: ", token.balanceOf(address(_receiver)));
         if (_receiver.onFlashLoan(msg.sender, _token, _amount, 0, _data) != CALLBACK_SUCCESS)
             revert CallbackFailed();
 

@@ -2,8 +2,9 @@
 pragma solidity ^0.8.0;
 
 import "../DamnValuableTokenSnapshot.sol";
-import "./ISimpleGovernance.sol"
-;
+import "./ISimpleGovernance.sol";
+import "hardhat/console.sol";
+
 /**
  * @title SimpleGovernance
  * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
@@ -21,6 +22,7 @@ contract SimpleGovernance is ISimpleGovernance {
     }
 
     function queueAction(address target, uint128 value, bytes calldata data) external returns (uint256 actionId) {
+        console.log("getBalanceAtLastSnapshot of msg.sender: ", _governanceToken.getBalanceAtLastSnapshot(msg.sender));
         if (!_hasEnoughVotes(msg.sender))
             revert NotEnoughVotes(msg.sender);
 
